@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Connectivity Tester</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    .status { color: green; font-weight: bold; }
+    .endpoint { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Python Connectivity Tester</h1>
+  <p class="status">Server is running ✅</p>
+
+  <div class="endpoint">
+    <button onclick="checkHealth()">Check /api/health</button>
+    <pre id="healthResult"></pre>
+  </div>
+
+  <script>
+    async function checkHealth() {
+      const res = await fetch("/api/health");
+      const data = await res.json();
+      document.getElementById("healthResult").textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
