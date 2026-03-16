@@ -9,14 +9,17 @@ app = Flask(__name__, static_folder='public', static_url_path='')
 def index():
     return send_from_directory('public', 'index.html')
 
-# Health check endpoint
+# Health check endpoint (no-cache so proxies like Cloudflare don't serve stale timestamps)
 @app.route('/api/health', methods=['GET'])
 def health():
-    return jsonify({
+    response = jsonify({
         "status": "ok",
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "environment": os.getenv("FLASK_ENV", "development")
     })
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 # Placeholder endpoint
 @app.route('/api/placeholder', methods=['GET'])
