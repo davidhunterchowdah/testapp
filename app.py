@@ -19,6 +19,7 @@ def health():
     })
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
     response.headers["Pragma"] = "no-cache"
+    response.headers.pop("ETag", None)  # avoid 304 Not Modified; always return fresh body
     return response
 
 # Placeholder endpoint
